@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "publicIPAddresses_main_service_ip_domainNameLabel": {
+            "value": null
+        },
+        "Redis_employeecache_name": {
+            "value": null
+        },
+        "sites_storage_function_name": {
+            "value": null
+        },
+        "vaults_key_vault_ram_name": {
+            "value": null
+        },
+        "frontdoors_appfrontdoor_name": {
+            "value": null
+        },
+        "sites_employee_service_rama_name": {
+            "value": null
+        },
+        "serverfarms_ASP_SENG41283_bc28_name": {
+            "value": null
+        },
+        "components_storage_function_name": {
+            "value": null
+        },
+        "components_SENG41284_insights_name": {
+            "value": null
+        },
+        "servers_seng41283mysqlserver_name": {
+            "value": null
+        },
+        "virtualNetworks_vpn_employee_app_name": {
+            "value": null
+        },
+        "storageAccounts_seng41283storage_name": {
+            "value": null
+        },
+        "publicIPAddresses_main_service_ip_name": {
+            "value": null
+        },
+        "storageAccounts_0e8a0864065d432387ed_name": {
+            "value": null
+        },
+        "serverfarms_ServicePlan69f534ea_3bb8_4165_name": {
+            "value": null
+        },
+        "serverfarms_ServicePlan8ec0478a_76e3_442a_name": {
+            "value": null
+        },
+        "serverfarms_storage_functionplanec52255070_name": {
+            "value": null
+        },
+        "applicationGateways_main_service_gateway_name": {
+            "value": null
+        },
+        "frontdoorwebapplicationfirewallpolicies_appFDWAFPolicy_name": {
+            "value": null
+        },
+        "smartdetectoralertrules_failure_anomalies___storage_function_name": {
+            "value": null
+        },
+        "smartdetectoralertrules_failure_anomalies___seng41284_insights_name": {
+            "value": null
+        },
+        "smartdetectoralertrules_failure_anomalies___employee_service_rama_name": {
+            "value": null
+        },
+        "components_employee_service_rama_externalid": {
+            "value": null
+        },
+        "actiongroups_application_insights_smart_detection_externalid": {
+            "value": null
+        }
+    }
+}

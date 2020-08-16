@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_spring_test_app_name": {
+            "value": null
+        },
+        "serverfarms_ServicePlanc6fe4af6_0c44_4eab_externalid": {
+            "value": null
+        }
+    }
+}

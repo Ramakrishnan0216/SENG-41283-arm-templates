@@ -1,0 +1,128 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "frontdoors_appfrontdoor_name": {
+            "defaultValue": "appfrontdoor",
+            "type": "String"
+        },
+        "frontdoorwebapplicationfirewallpolicies_appFDWAFPolicy_externalid": {
+            "defaultValue": "/subscriptions/3b4713c9-288a-4f7a-b45b-951e4f62ec31/resourceGroups/SENG41283/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/appFDWAFPolicy",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/frontdoors",
+            "apiVersion": "2020-05-01",
+            "name": "[parameters('frontdoors_appfrontdoor_name')]",
+            "location": "Global",
+            "properties": {
+                "resourceState": "Enabled",
+                "backendPools": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/BackendPools/employeepool')]",
+                        "name": "employeepool",
+                        "properties": {
+                            "backends": [
+                                {
+                                    "address": "employee-service-ram.azurewebsites.net",
+                                    "httpPort": 80,
+                                    "httpsPort": 443,
+                                    "priority": 1,
+                                    "weight": 50,
+                                    "backendHostHeader": "employee-service-ram.azurewebsites.net",
+                                    "enabledState": "Enabled"
+                                }
+                            ],
+                            "healthProbeSettings": {
+                                "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/healthprobesettings/healthprobesettings-1597537398889')]"
+                            },
+                            "loadBalancingSettings": {
+                                "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/loadbalancingsettings/loadbalancingsettings-1597537398889')]"
+                            },
+                            "resourceState": "Enabled"
+                        }
+                    }
+                ],
+                "healthProbeSettings": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/HealthProbeSettings/healthProbeSettings-1597537398889')]",
+                        "name": "healthProbeSettings-1597537398889",
+                        "properties": {
+                            "intervalInSeconds": 30,
+                            "path": "/",
+                            "protocol": "Https",
+                            "resourceState": "Enabled",
+                            "enabledState": "Enabled",
+                            "healthProbeMethod": "Head"
+                        }
+                    }
+                ],
+                "frontendEndpoints": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), concat('/FrontendEndpoints/', parameters('frontdoors_appfrontdoor_name'), '-azurefd-net'))]",
+                        "name": "[concat(parameters('frontdoors_appfrontdoor_name'), '-azurefd-net')]",
+                        "properties": {
+                            "hostName": "[concat(parameters('frontdoors_appfrontdoor_name'), '.azurefd.net')]",
+                            "sessionAffinityEnabledState": "Disabled",
+                            "sessionAffinityTtlSeconds": 0,
+                            "webApplicationFirewallPolicyLink": {
+                                "id": "[parameters('frontdoorwebapplicationfirewallpolicies_appFDWAFPolicy_externalid')]"
+                            },
+                            "resourceState": "Enabled"
+                        }
+                    }
+                ],
+                "loadBalancingSettings": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/LoadBalancingSettings/loadBalancingSettings-1597537398889')]",
+                        "name": "loadBalancingSettings-1597537398889",
+                        "properties": {
+                            "additionalLatencyMilliseconds": 0,
+                            "sampleSize": 4,
+                            "successfulSamplesRequired": 2,
+                            "resourceState": "Enabled"
+                        }
+                    }
+                ],
+                "routingRules": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), '/RoutingRules/route-to-employee')]",
+                        "name": "route-to-employee",
+                        "properties": {
+                            "frontendEndpoints": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/frontdoors', parameters('frontdoors_appfrontdoor_name')), concat('/frontendendpoints/', parameters('frontdoors_appfrontdoor_name'), '-azurefd-net'))]"
+                                }
+                            ],
+                            "acceptedProtocols": [
+                                "Http",
+                                "Https"
+                            ],
+                            "patternsToMatch": [
+                                "/"
+                            ],
+                            "enabledState": "Enabled",
+                            "resourceState": "Enabled",
+                            "routeConfiguration": {
+                                "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
+                                "customHost": "employee-service-ram.azurewebsites.net",
+                                "customPath": "/api/employees",
+                                "redirectProtocol": "HttpsOnly",
+                                "redirectType": "PermanentRedirect"
+                            }
+                        }
+                    }
+                ],
+                "backendPoolsSettings": {
+                    "enforceCertificateNameCheck": "Enabled",
+                    "sendRecvTimeoutSeconds": 30
+                },
+                "enabledState": "Enabled",
+                "friendlyName": "[parameters('frontdoors_appfrontdoor_name')]"
+            }
+        }
+    ]
+}
